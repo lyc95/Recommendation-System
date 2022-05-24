@@ -36,7 +36,6 @@ public class Rater {
                 return myRatings.get(k).getValue();
             }
         }
-        
         return -1;
     }
 
