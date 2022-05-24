@@ -1,27 +1,22 @@
+import java.util.*;
 /**
  * @author (lyc) 
  * @version (24 May 2022)
  */
-import java.util.*;
-public class SecondRatings {
-    private ArrayList<Movie> myMovies;
+public class ThirdRatings {
     private ArrayList<Rater> myRaters;
-    
-    public SecondRatings() {
+    public ThirdRatings() {
         // default constructor
-        this("data/ratedmoviesfull.csv", "data/ratings.csv");
+        this("data/ratings.csv");
     }
     
-    public SecondRatings(String movieFilename, String ratingFilename)
+    public ThirdRatings(String ratingFilename)
     {
         FirstRatings fr = new FirstRatings();
-        this.myMovies = fr.loadMovies(movieFilename);
         this.myRaters = fr.loadRaters(ratingFilename);
     }
     
-    public int getMovieSize(){
-        return myMovies.size();
-    }
+
     
     public int getRaterSize(){
         return myRaters.size();
@@ -53,38 +48,27 @@ public class SecondRatings {
     
     public ArrayList<Rating> getAverageRatings(int minimalRaters){
         ArrayList<Rating> res = new ArrayList<>();
-        for (Movie movie : myMovies)
+        ArrayList<String> movies = MovieDatabase.filterBy(new TrueFilter());
+        for (String movieId : movies)
         {
-            double avg = getAverageByID(movie.getID(), minimalRaters);
+            double avg = getAverageByID(movieId, minimalRaters);
             if (avg != 0.0)
             {
-                res.add(new Rating(movie.getID(), avg));
+                res.add(new Rating(movieId, avg));
             }
         }
         return res;
     }
     
-    public String getTitle(String id)
-    {
-        for (Movie movie : myMovies)
+    public ArrayList<Rating> getAverageRatingsByFilter(int minimalRaters, Filter filterCriteria){
+        ArrayList<Rating> res = new ArrayList<>();
+        for (Rating rating : getAverageRatings(minimalRaters))
         {
-            if (movie.getID().equals(id))
+            if (filterCriteria.satisfies(rating.getItem()))
             {
-                return movie.getTitle();
+                res.add(rating);
             }
         }
-        return "ID NOT FOUND";
-    }
-    
-    public String getID(String title)
-    {
-        for (Movie movie : myMovies)
-        {
-            if (movie.getTitle().equals(title))
-            {
-                return movie.getID();
-            }
-        }
-        return "NO SUCH TITLE";
+        return res;
     }
 }

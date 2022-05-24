@@ -2,7 +2,6 @@ import java.util.ArrayList;
 
 public class AllFilters implements Filter {
     ArrayList<Filter> filters;
-    
     public AllFilters() {
         filters = new ArrayList<Filter>();
     }
@@ -18,7 +17,6 @@ public class AllFilters implements Filter {
                 return false;
             }
         }
-        
         return true;
     }
 

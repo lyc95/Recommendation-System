@@ -42,7 +42,7 @@ public class FirstRatings {
             if (!map.containsKey(raterId))
             {
                 // create new Rater with rating
-                Rater newRater = new Rater(raterId);
+                Rater newRater = new EfficientRater(raterId);
                 newRater.addRating(movieId, rating);
                 map.put(raterId, newRater);
                 raters.add(newRater);
